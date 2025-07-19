@@ -123,6 +123,7 @@ code of signup.html file:
     - Public access→ **Yes**
     - security group: **launch-wizard-1**
     - Click **Create database**
+
 ![Project Screenshot](/images/rds-db.jpg)
 
 8. Now Connect your RDS database into your server with the rds endpoint
