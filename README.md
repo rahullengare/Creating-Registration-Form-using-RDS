@@ -26,13 +26,16 @@ By separating the database layer onto **Amazon RDS**, the system benefits from *
     - Key pair → pem_server_key
     - security group → launch-wizard-1
 
+![Project Screenshot](/images/console.jpg)
+
 ## Step 2: Connect and Install Packages
 
 1. Connect to EC2 via SSH
 
 ```bash
-ssh -i "pem-server-key.pem" ec2-user@ec2-44-203-87-121.compute-1.amazonaws.com
+ssh -i "pem-server-key.pem" ec2-user@ec2-3-92-1-210.compute-1.amazonaws.com
 ```
+![Project Screenshot](/images/connect-instance.jpg)
 
 2. Update system
 
@@ -120,16 +123,19 @@ code of signup.html file:
     - Public access→ **Yes**
     - security group: **launch-wizard-1**
     - Click **Create database**
-8. Now Connect your RDS database into your server
+![Project Screenshot](/images/rds-db.jpg)
+
+8. Now Connect your RDS database into your server with the rds endpoint
 
 ```bash
-sudo mysql -u database-1.c8taowgcq72q.us-east-1.rds.amazonaws.com -u admin -p
+sudo mysql -u myntra-db.c8taowgcq72q.us-east-1.rds.amazonaws.com admin -p
+//change your database endpoint
 ```
+![Project Screenshot](/images/mysql-rds-db.jpg)
 
 9. Create the MySQL Database 
 
 ```bash
-sudo mysql
 CREATE DATABASE myntra;
 USE myntra;
 ```
@@ -169,10 +175,10 @@ $comment = $_POST['comment'];
 $gender  = $_POST['gender'];
 
 // Database connection
-$servername = "database-1.c8taowgcq72q.us-east-1.rds.amazonaws.com";
-$username   = "admin";
-$password   = "c410JrUFbr1DreBJ8wld";
-$dbname     = "myntra";
+$servername = "database-1.c8taowgcq72q.us-east-1.rds.amazonaws.com";    //your rds database endpoint
+$username   = "admin";                                                  //your rds username
+$password   = "c410JrUFbr1DreBJ8wld";                                   //your rds password
+$dbname     = "myntra";                                    //your database name
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -231,15 +237,37 @@ sudo systemctl restart php-fpm
 ```bash
 <enter-your-public-ip>/signup.html
 ```
+![Project Screenshot](/images/from.jpg)
+![Project Screenshot](/images/record-insert.jpg)
 
 15. Now Go to RDS Database check your data enter or not 
 
 ```bash
+
+sudo mysql -u myntra-db.c8taowgcq72q.us-east-1.rds.amazonaws.com admin -p
 select*from users;
 ```
+![Project Screenshot](/images/database.jpg)
 
-16. Terminate Your instance 
-- go to AWS console → click on instance
-- select your instance
-- click on Instance state
-- click on terminate (delete) instance
+## Step 3: Terminating Your instance
+
+1. Your use are done then got to AWS console 
+2. Click on EC2 → instance 
+3. Select instance You want to terminated
+4. Click on Instance state 
+5. Choose **Terminate (delete) instance**
+6. Now click delete
+
+![Project Screenshot](/images/delete-instance.jpg)
+
+## Step 3: Deleteing Your RDS-Database
+
+1. Your use are done then got to AWS console 
+2. Click on RDS → Database
+3. Select instance You want to terminated
+4. Click on Action -> Delete
+5. Uncheck on Create final snapshot
+6. Unkcheck on Retain automated backups
+7. Now click delete
+
+![Project Screenshot](/images/delete-rds.jpg)
